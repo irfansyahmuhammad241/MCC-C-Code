@@ -12,7 +12,7 @@ namespace MCC_C__Code
         public int id { get; set; }
         public string name { get; set; }
         public int location_id { get; set; }
-        public int manager_id { get; set; }
+        public int? manager_id { get; set; }
 
         public static List<departments> GetAllDepartments()
         {
