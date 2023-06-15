@@ -14,15 +14,16 @@ namespace MCC_C__Code
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string email { get; set; }
-        public string phone { get; set; }
+        public string phone_number { get; set; }
         public DateTime hire_date { get; set; }
-        public double salary { get; set; }
-        public decimal commission_pct { get; set; }
+        public int salary { get; set; }
+        public decimal comission { get; set; }
         public int manager_id { get; set; }
-        public int job_id { get; set; }
+        public string job_id { get; set; }
         public int department_id { get; set; }
 
-        public static List<employees> GetAllEmployees()
+        // GetAllLocation : Location
+        public List<employees> GetAllEmployees()
         {
 
             SqlConnection connection;
@@ -37,7 +38,7 @@ namespace MCC_C__Code
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
                 command.Connection = connection;
-                command.CommandText = "Select * From tb_m_countries";
+                command.CommandText = "Select * From tb_m_employees";
 
                 //membuka koneksi
                 connection.Open();
@@ -47,24 +48,25 @@ namespace MCC_C__Code
                 {
                     while (reader.Read())
                     {
-                        var employee = new employees();
-                        employee.id = reader.GetInt32(0);
-                        employee.first_name = reader.GetString(1);
-                        employee.last_name = reader.GetString(2);
-                        employee.email = reader.GetString(3);
-                        employee.phone = reader.GetString(4);
-                        employee.hire_date = reader.GetDateTime(5);
-                        employee.salary = reader.GetDouble(6);
-                        employee.commission_pct = reader.GetDecimal(7);
-                        employee.manager_id = reader.GetInt32(8);
-                        employee.job_id = reader.GetInt32(9);
-                        employee.department_id = reader.GetInt32(10);
-                        employees.Add(employee);
+                        var emp = new employees();
+                        emp.id = reader.GetInt32(0);
+                        emp.first_name = reader.GetString(1);
+                        emp.last_name = reader.GetString(2);
+                        emp.email = reader.GetString(3);
+                        emp.phone_number = reader.GetString(4);
+                        emp.hire_date = reader.GetDateTime(5);
+                        emp.salary = reader.GetInt32(6);
+                        emp.comission = reader.GetDecimal(7);
+                        emp.manager_id = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
+                        emp.job_id = reader.GetString(9);
+                        emp.department_id = reader.GetInt32(10);
+
+                        employees.Add(emp);// Menambahkan objek Location ke dalam list
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Data Not Found");
+                    Console.WriteLine("Data not found!");
                 }
                 reader.Close();
             }
@@ -72,8 +74,9 @@ namespace MCC_C__Code
             {
                 Console.WriteLine(ex.Message);
             }
+
             connection.Close();
-            return employees;
+            return employees; // Mengembalikan list regions yang berisi objek-objek Region
         }
 
     }

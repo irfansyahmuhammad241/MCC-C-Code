@@ -13,7 +13,7 @@ namespace MCC_C__Code
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public static List<Region> GetAllRegion()
+        public List<Region> GetAllRegion()
         {
 
             SqlConnection connection;
@@ -58,7 +58,7 @@ namespace MCC_C__Code
             return region;
         }
 
-        public static List<Region> GetRegionByID(int id)
+        public List<Region> GetRegionByID(int id)
         {
 
             SqlConnection connection;
@@ -113,7 +113,7 @@ namespace MCC_C__Code
 
 
 
-        public static int InsertRegion(string nama)
+        public int InsertRegion(string nama)
         {
             int result = 0;
             connection = new SqlConnection(connectionString);
@@ -159,7 +159,7 @@ namespace MCC_C__Code
         }
 
 
-        public static int UpdateRegionByID(int id, string regionName)
+        public int UpdateRegionByID(int id, string regionName)
         {
             int result = 0;
             SqlConnection connection;
@@ -208,7 +208,7 @@ namespace MCC_C__Code
             return result;
         }
 
-        public static int DeleteRegionByID(int id)
+        public int DeleteRegionByID(int id)
         {
             int result = 0;
             SqlConnection connection;

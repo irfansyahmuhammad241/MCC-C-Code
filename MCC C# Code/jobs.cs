@@ -14,7 +14,7 @@ namespace MCC_C__Code
         public double min_salary { get; set; }
         public double max_salary { get; set; }
 
-        public static List<jobs> GetAllJobs()
+        public List<jobs> GetAllJobs()
         {
 
 

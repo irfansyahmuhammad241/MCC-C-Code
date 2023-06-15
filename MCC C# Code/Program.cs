@@ -19,6 +19,11 @@ public class Program
 
     public static void Menu()
     {
+        Region region1 = new Region();
+        LINQ linq = new LINQ();
+        employees employee = new employees();
+        departments deparment = new departments();
+        locations location = new locations();
         Console.WriteLine("Pilih table yang ingin dilihat");
         Console.WriteLine("1.Regions");
         Console.WriteLine("2.Countries");
@@ -27,6 +32,8 @@ public class Program
         Console.WriteLine("5.Employees");
         Console.WriteLine("6.Jobs");
         Console.WriteLine("7.Histories");
+        Console.WriteLine("8.LINQ");
+        Console.WriteLine("9.Exit");
         Console.WriteLine("Silahkan Pilih Table: ");
         int input = int.Parse(Console.ReadLine());
 
@@ -34,28 +41,28 @@ public class Program
         {
             case 1:
                 //GETALL Region
-                List<Region> regions = Region.GetAllRegion();
+                List<Region> regions = region1.GetAllRegion();
                 foreach (Region region in regions)
                 {
                     Console.WriteLine($"Id: {region.Id}  Name: {region.Name}");
                 }
                 break;
             case 2:
-                List<Countries> countries = Countries.GetAllCountries();
-                foreach (Countries country in countries)
-                {
-                    Console.WriteLine($"Id: {country.id}  Name: {country.nama} " +
-                        $"Region Id: {country.region_id}");
-                }
+                //List<Countries> countries = Countries.GetAllCountries();
+                //foreach (Countries country in countries)
+                //{
+                //    Console.WriteLine($"Id: {country.id}  Name: {country.nama} " +
+                //        $"Region Id: {country.region_id}");
+                //}
                 break;
             case 3:
-
+                List<locations> locationsList = location.GetAllLocations();
                 break;
             case 4:
-
+                List<departments> departmentList = deparment.GetAllDepartments();
                 break;
             case 5:
-
+                List<employees> employeesList = employee.GetAllEmployees();
                 break;
             case 6:
 
@@ -64,6 +71,9 @@ public class Program
 
                 break;
             case 8:
+                linq.Menu();
+                break;
+            case 9:
                 System.Environment.Exit(0);
                 break;
             default:

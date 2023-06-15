@@ -15,7 +15,7 @@ namespace MCC_C__Code
         public int department_id { get; set; }
         public string job_id { get; set; }
 
-        public static List<histories> GetAllHistories()
+        public List<histories> GetAllHistories()
         {
 
             SqlConnection connection;
@@ -43,7 +43,7 @@ namespace MCC_C__Code
                         var history = new histories();
                         history.start_date = reader.GetDateTime(0);
                         history.employee_id = reader.GetInt32(1);
-                        history.end_date = reader.GetDateTime(2);
+                        history.end_date = reader.IsDBNull(2) ? DateTime.Parse("00-00-00") : reader.GetDateTime(2);
                         history.department_id = reader.GetInt32(3);
                         history.job_id = reader.GetString(4);
                         histories.Add(history);

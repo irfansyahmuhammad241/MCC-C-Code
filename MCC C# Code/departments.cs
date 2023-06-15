@@ -14,7 +14,7 @@ namespace MCC_C__Code
         public int location_id { get; set; }
         public int? manager_id { get; set; }
 
-        public static List<departments> GetAllDepartments()
+        public List<departments> GetAllDepartments()
         {
 
             SqlConnection connection;
@@ -43,7 +43,7 @@ namespace MCC_C__Code
                         department.id = reader.GetInt32(0);
                         department.name = reader.GetString(1);
                         department.location_id = reader.GetInt32(2);
-                        department.manager_id = reader.GetInt32(3);
+                        department.manager_id = reader.IsDBNull(3) ? 0 : reader.GetInt32(3);
                         departments.Add(department);
                     }
                 }

@@ -17,7 +17,7 @@ namespace MCC_C__Code
 
         public int region_id { get; set; }
 
-        public static List<Countries> GetAllCountries()
+        public List<Countries> GetAllCountries()
         {
 
             SqlConnection connection;
@@ -45,7 +45,7 @@ namespace MCC_C__Code
                         var country = new Countries();
                         country.id = reader.GetString(0);
                         country.nama = reader.GetString(1);
-                        country.region_id = reader.GetInt32(1);
+                        country.region_id = reader.GetInt32(2);
                         countries.Add(country);
                     }
                 }
@@ -63,7 +63,7 @@ namespace MCC_C__Code
             return countries;
         }
 
-        public static int InsertCountries(string countryName, string regionID)
+        public int InsertCountries(string countryName, string regionID)
         {
             int result = 0;
             connection = new SqlConnection(connectionString);
@@ -115,7 +115,7 @@ namespace MCC_C__Code
         }
 
 
-        public static int UpdateCountryByID(string id, string countryName, int region_id)
+        public int UpdateCountryByID(string id, string countryName, int region_id)
         {
             int result = 0;
             SqlConnection connection;
@@ -172,7 +172,7 @@ namespace MCC_C__Code
             return result;
         }
 
-        public static int DeleteRegionByID(int id)
+        public int DeleteRegionByID(int id)
         {
             int result = 0;
             SqlConnection connection;

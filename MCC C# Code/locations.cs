@@ -16,7 +16,7 @@ namespace MCC_C__Code
         public string state_province { get; set; }
         public string country_id { get; set; }
 
-        public static List<locations> GetAllLocations()
+        public List<locations> GetAllLocations()
         {
 
             SqlConnection connection;
@@ -44,9 +44,9 @@ namespace MCC_C__Code
                         var location = new locations();
                         location.id = reader.GetInt32(0);
                         location.street_address = reader.GetString(1);
-                        location.postal_code = reader.GetString(2);
+                        location.postal_code = reader.IsDBNull(2) ? "" : reader.GetString(2);
                         location.city = reader.GetString(3);
-                        location.state_province = reader.GetString(4);
+                        location.state_province = reader.IsDBNull(4) ? " " : reader.GetString(4);
                         location.country_id = reader.GetString(5);
                         locations.Add(location);
                     }
