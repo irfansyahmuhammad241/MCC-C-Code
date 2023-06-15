@@ -249,6 +249,97 @@ namespace MCC_C__Code
             }
             connection.Close();
             return result;
+        }
+
+        public void RegionMenu()
+        {
+            Console.Clear();
+            Region region = new Region();
+            //GETALL Region
+            List<Region> regionList = region.GetAllRegion();
+            foreach (Region reg in regionList)
+            {
+                Console.WriteLine($"Id: {reg.Id}  Name: {reg.Name}");
+            }
+
+            Console.WriteLine("1. Get Region By ID");
+            Console.WriteLine("2. Insert Region");
+            Console.WriteLine("3. Update Region By ID");
+            Console.WriteLine("4. Delete Region By ID");
+            Console.WriteLine("5. Back To Main Menu");
+            int choice = Int32.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    Console.Clear();
+                    Console.Write("Masukan ID Region yang ingin dicari: ");
+                    int inputCase1 = Int32.Parse(Console.ReadLine());
+                    List<Region> regionByID = region.GetRegionByID(inputCase1);
+                    foreach (Region reg in regionByID)
+                    {
+                        Console.WriteLine($"Id: {reg.Id}  Name: {reg.Name}");
+                    }
+                    RegionMenu();
+                    break;
+                case 2:
+                    Console.Clear();
+                    Console.Write("Masukan Nama Region: ");
+                    string regionName = Console.ReadLine();
+                    int insertSuccess = InsertRegion(regionName);
+                    if (insertSuccess > 0)
+                    {
+                        Console.WriteLine("Data Was Added Succesfully ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Insert Data Failed");
+                    }
+                    Console.ReadKey();
+                    RegionMenu();
+                    break;
+                case 3:
+                    Console.Clear();
+                    Console.Write("Masukan ID Region yang ingin di update");
+                    int updateRegionID = Int32.Parse(Console.ReadLine());
+                    Console.Write("Masukan Nama Region Baru");
+                    string updateRegionName = Console.ReadLine();
+                    int updatedResult = UpdateRegionByID(updateRegionID, updateRegionName);
+                    if (updatedResult > 0)
+                    {
+                        Console.WriteLine("Data Was Updated Succesfull");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Data Update Failed");
+                    }
+                    Console.ReadKey();
+                    RegionMenu();
+                    break;
+                case 4:
+                    Console.Clear();
+                    Console.Write("Masukan ID Region yang ingin di delete: ");
+                    int deletedRegionID = Int32.Parse(Console.ReadLine());
+                    int deletedResult = DeleteRegionByID(deletedRegionID);
+                    if (deletedResult > 0)
+                    {
+                        Console.WriteLine("Data Delete Succesfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Data Deletion Failed");
+                    }
+                    Console.ReadKey();
+                    RegionMenu();
+                    break;
+                case 5:
+                    Program.Menu();
+                    break;
+                default:
+                    Console.WriteLine("Invalid Input");
+                    break;
+
+            }
 
         }
     }

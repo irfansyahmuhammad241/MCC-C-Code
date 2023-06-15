@@ -63,7 +63,60 @@ namespace MCC_C__Code
             return countries;
         }
 
-        public int InsertCountries(string countryName, string regionID)
+        public List<Countries> GetAllCountriesByID(int Id)
+        {
+
+            SqlConnection connection;
+            connection = new SqlConnection(connectionString);
+
+            var countries = new List<Countries>();
+            try
+            {
+
+                connection = new SqlConnection(connectionString);
+
+                //membuat instance untuk command
+                SqlCommand command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandText = "Select * From tb_m_countries WHERE id = @id";
+
+                //Buat Parameter untuk ID
+                SqlParameter pName = new SqlParameter();
+                pName.ParameterName = "@id";
+                pName.Value = Id;
+                pName.SqlDbType = SqlDbType.Int;
+
+                command.Parameters.Add(pName);
+                //membuka koneksi
+                connection.Open();
+
+                using SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var country = new Countries();
+                        country.id = reader.GetString(0);
+                        country.nama = reader.GetString(1);
+                        country.region_id = reader.GetInt32(2);
+                        countries.Add(country);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Data Not Found");
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            connection.Close();
+            return countries;
+        }
+
+        public int InsertCountries(string countryName, int regionID)
         {
             int result = 0;
             connection = new SqlConnection(connectionString);
@@ -87,8 +140,8 @@ namespace MCC_C__Code
 
                 SqlParameter pRegionId = new SqlParameter();
                 pRegionId.ParameterName = "@region_id";
-                pRegionId.Value = countryName;
-                pRegionId.SqlDbType = SqlDbType.VarChar;
+                pRegionId.Value = regionID;
+                pRegionId.SqlDbType = SqlDbType.Int;
 
                 //Menambahkan parameter ke command
                 command.Parameters.Add(pCountryName);
@@ -172,7 +225,7 @@ namespace MCC_C__Code
             return result;
         }
 
-        public int DeleteRegionByID(int id)
+        public int DeleteCountriesByID(int id)
         {
             int result = 0;
             SqlConnection connection;
@@ -216,5 +269,100 @@ namespace MCC_C__Code
             connection.Close();
             return result;
         }
+
+        public void CountryMenu()
+        {
+            Console.Clear();
+            Countries country = new Countries();
+            List<Countries> countries = country.GetAllCountries();
+            foreach (Countries coun in countries)
+            {
+                Console.WriteLine($"Id: {coun.id}  Name: {coun.nama} " +
+                    $"Region Id: {coun.region_id}");
+            }
+
+            Console.WriteLine("1. Get Country By ID");
+            Console.WriteLine("2. Insert Country");
+            Console.WriteLine("3. Update Country By ID");
+            Console.WriteLine("4. Delete Country By ID");
+            Console.WriteLine("5. Back To Main Menu");
+            int choice = Int32.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    Console.Clear();
+                    Console.Write("Masukan ID Country yang ingin dicari: ");
+                    int inputCase1 = Int32.Parse(Console.ReadLine());
+                    List<Countries> countriesByID = country.GetAllCountriesByID(inputCase1);
+                    foreach (Countries coun in countriesByID)
+                    {
+                        Console.WriteLine($"Id: {coun.id}  Name: {coun.nama} " +
+                            $"Region Id: {coun.region_id}");
+                    }
+                    CountryMenu();
+                    break;
+                case 2:
+                    Console.Clear();
+                    Console.Write("Masukan Nama Country: ");
+                    string countryName = Console.ReadLine();
+                    Console.Write("Masukan Region ID untuk Country: ");
+                    int regionID = Int32.Parse(Console.ReadLine());
+                    int insertSuccess = InsertCountries(countryName, regionID);
+                    if (insertSuccess > 0)
+                    {
+                        Console.WriteLine("Data Was Added Succesfully ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Insert Data Failed");
+                    }
+                    Console.ReadKey();
+                    CountryMenu();
+                    break;
+                case 3:
+                    Console.Clear();
+                    Console.Write("Masukan ID Country yang ingin di update");
+                    int updateCountryID = Int32.Parse(Console.ReadLine());
+                    Console.Write("Masukan Nama Country Baru");
+                    string updateCountryName = Console.ReadLine();
+                    Console.Write("Masukan Region ID untuk Country: ");
+                    int updatedregionID = Int32.Parse(Console.ReadLine());
+                    int updatedResult = UpdateCountryByID(updateCountryName, updateCountryName, updatedregionID);
+                    if (updatedResult > 0)
+                    {
+                        Console.WriteLine("Data Was Updated Succesfull");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Data Update Failed");
+                    }
+                    Console.ReadKey();
+                    CountryMenu();
+                    break;
+                case 4:
+                    Console.Clear();
+                    Console.Write("Masukan ID Country yang ingin di delete: ");
+                    int deletedCountryID = Int32.Parse(Console.ReadLine());
+                    int deletedResult = DeleteCountriesByID(deletedCountryID);
+                    if (deletedResult > 0)
+                    {
+                        Console.WriteLine("Data Delete Succesfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Data Deletion Failed");
+                    }
+                    Console.ReadKey();
+                    CountryMenu();
+                    break;
+                case 5:
+                    Program.Menu();
+                    break;
+                default:
+                    Console.WriteLine("Invalid Input");
+                    break;
+
+            }
+        }
     }
-}

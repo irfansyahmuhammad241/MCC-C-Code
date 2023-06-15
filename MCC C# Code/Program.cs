@@ -21,9 +21,13 @@ public class Program
     {
         Region region1 = new Region();
         LINQ linq = new LINQ();
+        Countries countries = new Countries();
         employees employee = new employees();
         departments deparment = new departments();
         locations location = new locations();
+        jobs jobs = new jobs();
+        histories histories = new histories();
+
         Console.WriteLine("Pilih table yang ingin dilihat");
         Console.WriteLine("1.Regions");
         Console.WriteLine("2.Countries");
@@ -40,35 +44,45 @@ public class Program
         switch (input)
         {
             case 1:
-                //GETALL Region
-                List<Region> regions = region1.GetAllRegion();
-                foreach (Region region in regions)
-                {
-                    Console.WriteLine($"Id: {region.Id}  Name: {region.Name}");
-                }
+                region1.RegionMenu();
                 break;
             case 2:
-                //List<Countries> countries = Countries.GetAllCountries();
-                //foreach (Countries country in countries)
-                //{
-                //    Console.WriteLine($"Id: {country.id}  Name: {country.nama} " +
-                //        $"Region Id: {country.region_id}");
-                //}
+                countries.CountryMenu();
                 break;
             case 3:
                 List<locations> locationsList = location.GetAllLocations();
+                foreach (locations loc in locationsList)
+                {
+                    Console.WriteLine();
+                }
                 break;
             case 4:
-                List<departments> departmentList = deparment.GetAllDepartments();
+                List<departments> departmentsList = deparment.GetAllDepartments();
+                foreach (departments dep in departmentsList)
+                {
+                    Console.WriteLine();
+                }
                 break;
             case 5:
                 List<employees> employeesList = employee.GetAllEmployees();
+                foreach (employees emp in employeesList)
+                {
+                    Console.WriteLine();
+                }
                 break;
             case 6:
-
+                List<jobs> jobsList = jobs.GetAllJobs();
+                foreach (jobs job in jobsList)
+                {
+                    Console.WriteLine();
+                }
                 break;
             case 7:
-
+                List<histories> historiesList = histories.GetAllHistories();
+                foreach (histories historiy in historiesList)
+                {
+                    Console.WriteLine();
+                }
                 break;
             case 8:
                 linq.Menu();
