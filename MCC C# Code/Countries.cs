@@ -5,11 +5,6 @@ namespace MCC_C__Code
 {
     public class Countries
     {
-        static string connectionString = "Data Source=MSI;Database=db_hr;Integrated Security=True;Connect Timeout=30;";
-
-
-        static SqlConnection connection;
-
 
         public string id { get; set; }
 
@@ -17,17 +12,19 @@ namespace MCC_C__Code
 
         public int region_id { get; set; }
 
+        SqlConnection connect = DatabaseConnection.GetConnection();
+
         public List<Countries> GetAllCountries()
         {
 
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             var countries = new List<Countries>();
             try
             {
 
-                connection = new SqlConnection(connectionString);
+                connection = DatabaseConnection.GetConnection();
 
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
@@ -67,13 +64,13 @@ namespace MCC_C__Code
         {
 
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             var countries = new List<Countries>();
             try
             {
 
-                connection = new SqlConnection(connectionString);
+                connection = DatabaseConnection.GetConnection();
 
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
@@ -119,7 +116,9 @@ namespace MCC_C__Code
         public int InsertCountries(string countryName, int regionID)
         {
             int result = 0;
-            connection = new SqlConnection(connectionString);
+            SqlConnection connection;
+            connection = DatabaseConnection.GetConnection();
+
 
             connection.Open();
 
@@ -172,7 +171,7 @@ namespace MCC_C__Code
         {
             int result = 0;
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             connection.Open();
             SqlTransaction transaction = connection.BeginTransaction();
@@ -229,7 +228,7 @@ namespace MCC_C__Code
         {
             int result = 0;
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             connection.Open();
             SqlTransaction transaction = connection.BeginTransaction();
@@ -366,3 +365,4 @@ namespace MCC_C__Code
             }
         }
     }
+}

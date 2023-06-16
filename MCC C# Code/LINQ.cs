@@ -46,17 +46,17 @@
             var region = new Region();
 
             var employees = (from e in employee.GetAllEmployees()
-                             join d in department.GetAllDepartments() on e.department_id equals d.id
+                             join d in department.GetAllDepartments() on e.DepartmentId equals d.id
                              join l in location.GetAllLocations() on d.location_id equals l.id
                              join c in country.GetAllCountries() on l.country_id equals c.id
                              join r in region.GetAllRegion() on c.region_id equals r.Id
                              select new
                              {
-                                 ID = e.id,
-                                 FirstName = e.first_name,
-                                 Email = e.email,
-                                 Phone = e.phone_number,
-                                 Salary = e.salary,
+                                 ID = e.Id,
+                                 FirstName = e.FirstName,
+                                 Email = e.Email,
+                                 Phone = e.PhoneNumber,
+                                 Salary = e.Salary,
                                  DepartmentName = d.name,
                                  StreetAddress = l.street_address,
                                  CountryName = c.nama,
@@ -88,15 +88,15 @@
 
 
             var empDepartment = (from d in department.GetAllDepartments()
-                                 join e in employee.GetAllEmployees() on d.id equals e.department_id into empDpt
+                                 join e in employee.GetAllEmployees() on d.id equals e.DepartmentId into empDpt
                                  where empDpt.Count() > 3
                                  select new
                                  {
                                      DepartmentName = d.name,
                                      TotalEmployee = empDpt.Count(),
-                                     MinSalary = empDpt.Min(e => e.salary),
-                                     MaxSalary = empDpt.Max(e => e.salary),
-                                     AverageSalary = empDpt.Average(e => e.salary),
+                                     MinSalary = empDpt.Min(e => e.Salary),
+                                     MaxSalary = empDpt.Max(e => e.Salary),
+                                     AverageSalary = empDpt.Average(e => e.Salary),
 
                                  });
 

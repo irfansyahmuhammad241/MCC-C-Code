@@ -5,36 +5,30 @@ namespace MCC_C__Code
     public class employees
     {
 
-        static string connectionString = "Data Source=MSI;Database=db_hr;Integrated Security=True;Connect Timeout=30;";
+        SqlConnection connect = DatabaseConnection.GetConnection();
 
-
-        static SqlConnection connection;
-
-        public int id { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public string email { get; set; }
-        public string phone_number { get; set; }
-        public DateTime hire_date { get; set; }
-        public int salary { get; set; }
-        public decimal comission { get; set; }
-        public int manager_id { get; set; }
-        public string job_id { get; set; }
-        public int department_id { get; set; }
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+        public DateTime HireDate { get; set; }
+        public int Salary { get; set; }
+        public decimal ComissionPct { get; set; }
+        public int ManagerId { get; set; }
+        public string JobId { get; set; }
+        public int DepartmentId { get; set; }
 
         // GetAllLocation : Location
         public List<employees> GetAllEmployees()
         {
 
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             var employees = new List<employees>();
             try
             {
-
-                connection = new SqlConnection(connectionString);
-
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
                 command.Connection = connection;
@@ -49,17 +43,17 @@ namespace MCC_C__Code
                     while (reader.Read())
                     {
                         var emp = new employees();
-                        emp.id = reader.GetInt32(0);
-                        emp.first_name = reader.GetString(1);
-                        emp.last_name = reader.GetString(2);
-                        emp.email = reader.GetString(3);
-                        emp.phone_number = reader.GetString(4);
-                        emp.hire_date = reader.GetDateTime(5);
-                        emp.salary = reader.GetInt32(6);
-                        emp.comission = reader.GetDecimal(7);
-                        emp.manager_id = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
-                        emp.job_id = reader.GetString(9);
-                        emp.department_id = reader.GetInt32(10);
+                        emp.Id = reader.GetInt32(0);
+                        emp.FirstName = reader.GetString(1);
+                        emp.LastName = reader.GetString(2);
+                        emp.Email = reader.GetString(3);
+                        emp.PhoneNumber = reader.GetString(4);
+                        emp.HireDate = reader.GetDateTime(5);
+                        emp.Salary = reader.GetInt32(6);
+                        emp.ComissionPct = reader.GetDecimal(7);
+                        emp.ManagerId = reader.IsDBNull(8) ? 0 : reader.GetInt32(8);
+                        emp.JobId = reader.GetString(9);
+                        emp.DepartmentId = reader.GetInt32(10);
 
                         employees.Add(emp);// Menambahkan objek Location ke dalam list
                     }
@@ -77,6 +71,34 @@ namespace MCC_C__Code
 
             connection.Close();
             return employees; // Mengembalikan list regions yang berisi objek-objek Region
+        }
+
+        public void EmployeesMenu()
+        {
+            employees employees = new employees();
+            Console.Clear();
+            List<employees> employeesList = employees.GetAllEmployees();
+            foreach (employees emp in employeesList)
+            {
+                Console.WriteLine("ID : " + emp.Id +
+                    ", First Name : " + emp.FirstName +
+                    ", Last Name : " + emp.LastName +
+                    ", Email : " + emp.Email +
+                    ", Phone Number : " + emp.PhoneNumber +
+                    ", Hire Date ID : " + emp.HireDate +
+                    ", Salary :  " + emp.Salary +
+                    ", Comission : " + emp.ComissionPct +
+                    ", Manager ID : " + emp.ManagerId +
+                    "Job ID : " + emp.JobId +
+                    ", Department ID : " + emp.DepartmentId);
+
+
+
+            }
+
+            Console.WriteLine("Press enter to return to the Main Menu");
+            Console.ReadKey();
+            Program.Menu();
         }
 
     }

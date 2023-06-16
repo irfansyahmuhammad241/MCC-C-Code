@@ -1,24 +1,17 @@
-﻿using System.Data.SqlClient;
-using MCC_C__Code;
+﻿using MCC_C__Code;
 
 //Materi Database Connectivity
 
 public class Program
 {
-    static string connectionString = "Data Source=MSI;Database=db_hr;Integrated Security=True;Connect Timeout=30;";
-
-
-    static SqlConnection connection;
-
-
     public static void Main(string[] args)
     {
-        connection = new SqlConnection(connectionString);
         Menu();
     }
 
     public static void Menu()
     {
+        Console.Clear();
         Region region1 = new Region();
         LINQ linq = new LINQ();
         Countries countries = new Countries();
@@ -50,39 +43,19 @@ public class Program
                 countries.CountryMenu();
                 break;
             case 3:
-                List<locations> locationsList = location.GetAllLocations();
-                foreach (locations loc in locationsList)
-                {
-                    Console.WriteLine();
-                }
+                location.LocationsMenu();
                 break;
             case 4:
-                List<departments> departmentsList = deparment.GetAllDepartments();
-                foreach (departments dep in departmentsList)
-                {
-                    Console.WriteLine();
-                }
+                deparment.DepartmentMenu();
                 break;
             case 5:
-                List<employees> employeesList = employee.GetAllEmployees();
-                foreach (employees emp in employeesList)
-                {
-                    Console.WriteLine();
-                }
+                employee.EmployeesMenu();
                 break;
             case 6:
-                List<jobs> jobsList = jobs.GetAllJobs();
-                foreach (jobs job in jobsList)
-                {
-                    Console.WriteLine();
-                }
+                jobs.JobsMenu();
                 break;
             case 7:
-                List<histories> historiesList = histories.GetAllHistories();
-                foreach (histories historiy in historiesList)
-                {
-                    Console.WriteLine();
-                }
+                histories.HistoriesMenu();
                 break;
             case 8:
                 linq.Menu();

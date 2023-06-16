@@ -4,33 +4,30 @@ namespace MCC_C__Code
 {
     public class jobs
     {
-        static string connectionString = "Data Source=MSI;Database=db_hr;Integrated Security=True;Connect Timeout=30;";
+        SqlConnection connect = DatabaseConnection.GetConnection();
 
-
-        static SqlConnection connection;
-
-        public string id { get; set; }
-        public string title { get; set; }
-        public double min_salary { get; set; }
-        public double max_salary { get; set; }
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public double MinSalary { get; set; }
+        public double MaxSalary { get; set; }
 
         public List<jobs> GetAllJobs()
         {
 
 
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             var jobs = new List<jobs>();
             try
             {
 
-                connection = new SqlConnection(connectionString);
+                connection = DatabaseConnection.GetConnection();
 
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
                 command.Connection = connection;
-                command.CommandText = "Select * From tb_m_countries";
+                command.CommandText = "SELECT id, title, min_salary, max_salary FROM tb_m_jobs";
 
                 //membuka koneksi
                 connection.Open();
@@ -41,10 +38,10 @@ namespace MCC_C__Code
                     while (reader.Read())
                     {
                         var job = new jobs();
-                        job.id = reader.GetString(0);
-                        job.title = reader.GetString(1);
-                        job.min_salary = reader.GetDouble(2);
-                        job.max_salary = reader.GetDouble(3);
+                        job.Id = reader.GetString(0);
+                        job.Title = reader.GetString(1);
+                        job.MinSalary = Convert.ToDouble(reader.GetInt32(2));
+                        job.MaxSalary = Convert.ToDouble(reader.GetInt32(3));
                         jobs.Add(job);
                     }
                 }
@@ -60,6 +57,27 @@ namespace MCC_C__Code
             }
             connection.Close();
             return jobs;
+        }
+
+        public void JobsMenu()
+        {
+            jobs jobs = new jobs();
+            Console.Clear();
+            List<jobs> jobsList = jobs.GetAllJobs();
+            foreach (jobs job in jobsList)
+            {
+                Console.WriteLine("ID : " + job.Id +
+                    ", Title : " + job.Title +
+                    ", Min Salary : " + job.MinSalary +
+                    ",  Max Salary : " + job.MaxSalary);
+
+
+
+            }
+
+            Console.WriteLine("Press enter to return to the Main Menu");
+            Console.ReadKey();
+            Program.Menu();
         }
     }
 }

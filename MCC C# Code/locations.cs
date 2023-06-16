@@ -4,10 +4,7 @@ namespace MCC_C__Code
 {
     public class locations
     {
-        static string connectionString = "Data Source=MSI;Database=db_hr;Integrated Security=True;Connect Timeout=30;";
-
-
-        static SqlConnection connection;
+        SqlConnection connect = DatabaseConnection.GetConnection();
 
         public int id { get; set; }
         public string street_address { get; set; }
@@ -20,13 +17,13 @@ namespace MCC_C__Code
         {
 
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             var locations = new List<locations>();
             try
             {
 
-                connection = new SqlConnection(connectionString);
+                connection = DatabaseConnection.GetConnection();
 
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
@@ -63,6 +60,27 @@ namespace MCC_C__Code
             }
             connection.Close();
             return locations;
+        }
+
+        public void LocationsMenu()
+        {
+            locations locations = new locations();
+            Console.Clear();
+            List<locations> locationsList = locations.GetAllLocations();
+            foreach (locations loc in locationsList)
+            {
+
+                Console.WriteLine("Id : " + loc.id +
+                    ", Street Addres : " + loc.street_address +
+                    ", Postal Code : " + loc.postal_code +
+                    ", City : " + loc.city +
+                    ", State Province : " + loc.state_province +
+                    ", Country ID : " + loc.country_id);
+            }
+
+            Console.WriteLine("Press enter to return to the Main Menu");
+            Console.ReadKey();
+            Program.Menu();
         }
     }
 }

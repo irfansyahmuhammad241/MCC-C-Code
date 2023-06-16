@@ -4,10 +4,7 @@ namespace MCC_C__Code
 {
     public class departments
     {
-        static string connectionString = "Data Source=MSI;Database=db_hr;Integrated Security=True;Connect Timeout=30;";
-
-
-        static SqlConnection connection;
+        SqlConnection connect = DatabaseConnection.GetConnection();
 
         public int id { get; set; }
         public string name { get; set; }
@@ -18,13 +15,13 @@ namespace MCC_C__Code
         {
 
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection(); ;
 
             var departments = new List<departments>();
             try
             {
 
-                connection = new SqlConnection(connectionString);
+                connection = DatabaseConnection.GetConnection(); ;
 
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
@@ -59,6 +56,22 @@ namespace MCC_C__Code
             }
             connection.Close();
             return departments;
+        }
+
+        public void DepartmentMenu()
+        {
+            departments departments = new departments();
+            Console.Clear();
+            List<departments> departmentsList = departments.GetAllDepartments();
+            foreach (departments dep in departmentsList)
+            {
+
+                Console.WriteLine("Id : " + dep.id + ", Department Name : " + dep.name + ", Location ID : " + dep.location_id + ", Manager ID : " + dep.manager_id);
+            }
+
+            Console.WriteLine("Press enter to return to the Main Menu");
+            Console.ReadKey();
+            Program.Menu();
         }
     }
 }

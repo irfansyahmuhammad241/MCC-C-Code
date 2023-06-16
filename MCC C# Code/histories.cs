@@ -4,34 +4,30 @@ namespace MCC_C__Code
 {
     public class histories
     {
-        static string connectionString = "Data Source=MSI;Database=db_hr;Integrated Security=True;Connect Timeout=30;";
+        SqlConnection connect = DatabaseConnection.GetConnection();
 
-
-        static SqlConnection connection;
-
-        public DateTime start_date { get; set; }
-        public int employee_id { get; set; }
-        public DateTime end_date { get; set; }
-        public int department_id { get; set; }
-        public string job_id { get; set; }
+        public DateTime StartDate { get; set; }
+        public int EmployeeId { get; set; }
+        public DateTime EndDate { get; set; }
+        public int DepartmentId { get; set; }
+        public string JobId { get; set; }
 
         public List<histories> GetAllHistories()
         {
 
             SqlConnection connection;
-            connection = new SqlConnection(connectionString);
+            connection = DatabaseConnection.GetConnection();
 
             var histories = new List<histories>();
             try
             {
 
-                connection = new SqlConnection(connectionString);
+                connection = DatabaseConnection.GetConnection();
 
                 //membuat instance untuk command
                 SqlCommand command = new SqlCommand();
                 command.Connection = connection;
-                command.CommandText = "Select * From tb_m_countries";
-
+                command.CommandText = "SELECT start_date, employee_id, end_date, department_id, job_id FROM tb_tr_histories";
                 //membuka koneksi
                 connection.Open();
 
@@ -41,12 +37,13 @@ namespace MCC_C__Code
                     while (reader.Read())
                     {
                         var history = new histories();
-                        history.start_date = reader.GetDateTime(0);
-                        history.employee_id = reader.GetInt32(1);
-                        history.end_date = reader.IsDBNull(2) ? DateTime.Parse("00-00-00") : reader.GetDateTime(2);
-                        history.department_id = reader.GetInt32(3);
-                        history.job_id = reader.GetString(4);
-                        histories.Add(history);
+                        history.StartDate = reader.GetDateTime(0);
+                        history.EmployeeId = reader.GetInt32(1);
+                        history.EndDate = reader.IsDBNull(2) ? DateTime.MinValue : reader.GetDateTime(2);
+                        history.DepartmentId = reader.GetInt32(3);
+                        history.JobId = reader.GetString(4);
+
+                        histories.Add(history);// Menambahkan objek Department ke dalam list
                     }
                 }
                 else
@@ -62,5 +59,28 @@ namespace MCC_C__Code
             connection.Close();
             return histories;
         }
+
+        public void HistoriesMenu()
+        {
+            histories histories = new histories();
+            Console.Clear();
+            List<histories> historyList = histories.GetAllHistories();
+            foreach (histories history in historyList)
+            {
+
+                Console.WriteLine("Start_Date : " + history.StartDate +
+                    "Employee_ID : " + history.EmployeeId +
+                    ", End_Date : " + history.EndDate +
+                    ",  Department ID : " + history.DepartmentId +
+                    ", Job_ID : " + history.JobId);
+
+            }
+
+            Console.WriteLine("Press enter to return to the Main Menu");
+            Console.ReadKey();
+            Program.Menu();
+        }
+
+
     }
 }
