@@ -67,7 +67,6 @@ public class Program
                 Console.WriteLine("Salah input ulang lagi");
                 break;
 
-
         }
 
     }
