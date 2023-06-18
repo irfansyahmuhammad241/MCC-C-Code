@@ -270,11 +270,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                     Console.Write("Masukan ID Region yang ingin dicari: ");
                     int inputCase1 = Int32.Parse(Console.ReadLine());
                     Region regionByID = region.GetRegionByID(inputCase1);
-                    foreach (Region reg in regionByID)
-                    {
-                        Console.WriteLine($"Id: {reg.Id}  Name: {reg.Name}");
-                    }
-                    RegionMenu();
+                    Console.WriteLine($"ID: {regionByID.Id} | Region Name: {regionByID.Name}");
                     break;
                 case 2:
                     Console.Clear();
