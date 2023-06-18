@@ -56,13 +56,12 @@ namespace Database_Connectivity_MVC_Refactoring.Models
             return countries;
         }
 
-        public List<Countries> GetAllCountriesByID(int Id)
+        public Countries GetCountriesByID(string Id)
         {
 
             SqlConnection connection;
             connection = DatabaseConnection.GetConnection();
-
-            var countries = new List<Countries>();
+            var country = new Countries();
             try
             {
                 //membuat instance untuk command
@@ -74,7 +73,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                 SqlParameter pName = new SqlParameter();
                 pName.ParameterName = "@id";
                 pName.Value = Id;
-                pName.SqlDbType = SqlDbType.Int;
+                pName.SqlDbType = SqlDbType.VarChar;
 
                 command.Parameters.Add(pName);
                 //membuka koneksi
@@ -85,11 +84,10 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                 {
                     while (reader.Read())
                     {
-                        var country = new Countries();
+
                         country.id = reader.GetString(0);
                         country.nama = reader.GetString(1);
                         country.region_id = reader.GetInt32(2);
-                        countries.Add(country);
                     }
                 }
                 else
@@ -103,7 +101,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                 Console.WriteLine(ex.Message);
             }
             connection.Close();
-            return countries;
+            return country;
         }
 
         public int InsertCountries(string countryName, int regionID)
@@ -217,7 +215,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
             return result;
         }
 
-        public int DeleteCountriesByID(int id)
+        public int DeleteCountriesByID(string id)
         {
             int result = 0;
             SqlConnection connection;
@@ -285,14 +283,11 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                 case 1:
                     Console.Clear();
                     Console.Write("Masukan ID Country yang ingin dicari: ");
-                    int inputCase1 = Int32.Parse(Console.ReadLine());
-                    List<Countries> countriesByID = country.GetAllCountriesByID(inputCase1);
-                    foreach (Countries coun in countriesByID)
-                    {
-                        Console.WriteLine($"Id: {coun.id}  Name: {coun.nama} " +
-                            $"Region Id: {coun.region_id}");
-                    }
+                    string inputCase1 = Console.ReadLine();
+                    Countries countriesByID = country.GetCountriesByID(inputCase1);
+                    Console.WriteLine($"ID: {countriesByID.id} | Country Name: {countriesByID.nama} | Region ID: {countriesByID.region_id}");
                     break;
+
                 case 2:
                     Console.Clear();
                     Console.Write("Masukan Nama Country: ");
@@ -332,7 +327,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                 case 4:
                     Console.Clear();
                     Console.Write("Masukan ID Country yang ingin di delete: ");
-                    int deletedCountryID = Int32.Parse(Console.ReadLine());
+                    string deletedCountryID = Console.ReadLine();
                     int deletedResult = DeleteCountriesByID(deletedCountryID);
                     if (deletedResult > 0)
                     {

@@ -15,7 +15,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
             SqlConnection connection;
             connection = DatabaseConnection.GetConnection();
 
-            var region = new List<Region>();
+            var regionList = new List<Region>();
             try
             {
 
@@ -37,7 +37,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                         var reg = new Region();
                         reg.Id = reader.GetInt32(0);
                         reg.Name = reader.GetString(1);
-                        region.Add(reg);
+                        regionList.Add(reg);
                     }
                 }
                 else
@@ -51,10 +51,10 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                 Console.WriteLine(ex.Message);
             }
             connection.Close();
-            return region;
+            return regionList;
         }
 
-        public List<Region> GetRegionByID(int id)
+        public Region GetRegionByID(int id)
         {
 
             SqlConnection connection;
@@ -75,7 +75,6 @@ namespace Database_Connectivity_MVC_Refactoring.Models
 
             command.Parameters.Add(pName);
 
-            var regionList = new List<Region>();
             Region region = new Region();
             try
             {
@@ -86,7 +85,6 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                     {
                         region.Id = reader.GetInt32(0);
                         region.Name = reader.GetString(1);
-                        regionList.Add(region);
 
                     }
 
@@ -103,7 +101,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
             }
 
             connection.Close();
-            return regionList;
+            return region;
 
         }
 
@@ -271,7 +269,7 @@ namespace Database_Connectivity_MVC_Refactoring.Models
                     Console.Clear();
                     Console.Write("Masukan ID Region yang ingin dicari: ");
                     int inputCase1 = Int32.Parse(Console.ReadLine());
-                    List<Region> regionByID = region.GetRegionByID(inputCase1);
+                    Region regionByID = region.GetRegionByID(inputCase1);
                     foreach (Region reg in regionByID)
                     {
                         Console.WriteLine($"Id: {reg.Id}  Name: {reg.Name}");

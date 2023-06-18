@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Database_Connectivity_MVC_Refactoring.Models;
 
 namespace Database_Connectivity_MVC_Refactoring.Views
 {
-    internal class HistoriesView
+    public class HistoriesView
     {
+        public static List<Histories> GetAllData()
+        {
+            Histories histories = new Histories();
+
+            List<Histories> historyList = histories.GetAllHistories();
+
+            return historyList;
+        }
     }
 }

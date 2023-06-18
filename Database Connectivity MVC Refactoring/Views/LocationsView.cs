@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Database_Connectivity_MVC_Refactoring.Models;
 
 namespace Database_Connectivity_MVC_Refactoring.Views
 {
-    internal class LocationsView
+    public class LocationsView
     {
+        public static List<Locations> GetAllData()
+        {
+            Locations locations = new Locations();
+
+            List<Locations> locationList = locations.GetAllLocations();
+
+            return locationList;
+        }
     }
 }

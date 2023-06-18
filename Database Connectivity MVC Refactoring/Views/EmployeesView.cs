@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Database_Connectivity_MVC_Refactoring.Models;
 
 namespace Database_Connectivity_MVC_Refactoring.Views
 {
-    internal class EmployeesView
+    public class EmployeesView
     {
+        public static List<Employees> GetAllData()
+        {
+            Employees employees = new Employees();
+
+            List<Employees> employeeList = employees.GetAllEmployees();
+
+            return employeeList;
+        }
     }
 }

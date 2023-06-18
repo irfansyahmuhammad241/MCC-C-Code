@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Database_Connectivity_MVC_Refactoring.Models;
 
 namespace Database_Connectivity_MVC_Refactoring.Views
 {
-    internal class DepartmentsView
+    public class DepartmentsView
     {
+        public static List<Departments> GetAllData()
+        {
+            Departments departments = new Departments();
+
+            List<Departments> departmentList = departments.GetAllDepartments();
+
+            return departmentList;
+        }
     }
 }
