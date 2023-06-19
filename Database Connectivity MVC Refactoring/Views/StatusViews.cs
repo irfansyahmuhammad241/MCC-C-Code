@@ -45,9 +45,9 @@
             Console.WriteLine("Process Failed");
         }
 
-        public static void InputUnknown()
+        public static void InputInvalid()
         {
-            Console.WriteLine("Input Unknown");
+            Console.WriteLine("Input Invalid");
         }
     }
 }

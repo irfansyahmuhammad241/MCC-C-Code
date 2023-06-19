@@ -1,10 +1,13 @@
-﻿namespace Database_Connectivity_MVC_Refactoring
+﻿using Database_Connectivity_MVC_Refactoring.Controllers;
+
+namespace Database_Connectivity_MVC_Refactoring
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            MenuController menuController = new MenuController();
+            menuController.MainMenu();
         }
     }
 }
